@@ -13,7 +13,7 @@ Before you begin, ensure you have:
 
 1. Clone the repository:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/harrish8248/finance-concierge.git
    cd finance-concierge
    ```
 
