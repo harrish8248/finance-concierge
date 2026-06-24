@@ -1,0 +1,46 @@
+[0:00 — HOOK]
+Hello everyone. Keeping track of budgets, transaction histories, and recurring subscriptions is a tedious task that most people struggle with, often leading to overspending or paying for forgotten services. To solve this, I've built the Finance Concierge—a secure, intelligent personal finance assistant designed to help users take complete control of their money without compromising their data.
+
+(pause)
+
+[0:20 — WHAT IT IS]
+Finance Concierge falls under the Concierge Agents track. It acts as an automated financial assistant that analyzes spending, matches it against budgets, and manages subscriptions. It connects to a local database of financial transactions using Model Context Protocol tools and operates with safety checks.
+
+(pause)
+
+[0:40 — SHOW THE BANNER]
+(show assets/cover_page_banner.png)
+As you can see on the screen, Finance Concierge is automated, secure, and intelligent. It handles expense tracking, budget planning, and subscription renewals in one central place, giving users a complete overview of their financial health at a glance.
+
+(pause)
+
+[1:00 — ARCHITECTURE]
+(show assets/architecture_diagram.png)
+Let's look at the underlying architecture. When a user sends a request, it always goes through our Security Checkpoint node first, which screens for PII and prompt injections. If cleared, it flows to the orchestrator_agent. The orchestrator delegates analysis to three specialized sub-agents: the expense_tracker_agent, the budget_planner_agent, and the subscription_manager_agent. These sub-agents query financial data via our stdio MCP Server. If any sub-agent suggests a high-value action, the flow passes through a review_gate that pauses for user confirmation before returning the final_output.
+
+(pause)
+
+[2:00 — LIVE DEMO]
+(switch to playground at localhost:18081)
+Now, let's see it in action.
+First, we'll ask the agent: "Show me my spending summary for this month and compare it to my budget."
+(pause)
+As we submit, the request goes through the security checkpoint, is flagged as CLEAR, and goes to the orchestrator. The orchestrator invokes the expense tracker and budget planner agents. They fetch data via get_spending_summary and get_budget_limits from the MCP server. The result is this clean summary showing exactly where we are over budget, like Food, and where we are under budget, like Transport.
+
+Next, let's trigger a human-in-the-loop review by asking: "I want to cancel my Adobe CC subscription."
+(pause)
+Since the subscription cost is $54.99, which is above our fifty dollar threshold, the orchestrator triggers the review gate. Notice the popup asking for approval: "⚠️ Your Finance Concierge needs your approval: Cancel Adobe CC subscription... Do you approve?" When we click "yes", the action is confirmed.
+
+Finally, let's test the security node by typing: "Check charges on card 4111 1111 1111 1111."
+(pause)
+The security checkpoint instantly intercepts the request, blocks it because it contains a raw credit card number, logs a CRITICAL audit event, and returns a block notification without exposing the prompt to any sub-agents.
+
+(pause)
+
+[3:00 — SECURITY & MCP]
+This secure workflow highlights the power of ADK. Our Security Checkpoint handles PII redaction and jailbreak protection locally, and the stdio-based MCP Server allows our agents to securely query database endpoints without exposing API connections directly.
+
+(pause)
+
+[3:30 — IMPACT / CLOSE]
+Finance Concierge gives users a secure way to manage their personal finances. It highlights how multi-agent collaboration, Model Context Protocol tools, and automated security safeguards can combine to make AI assistants both incredibly capable and highly trustworthy. Thank you.
